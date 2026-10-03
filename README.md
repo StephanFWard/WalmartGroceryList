@@ -2,6 +2,12 @@
 
 A localhost dashboard for the Walmart grocery list `WL/73215e44-ec62-42ab-ae9e-3a997e756090`. Search the list's items with their official Walmart product images, track quantities, keep the local list in sync with the list mirror, and jump to Walmart checkout.
 
+## Preview
+
+![Walmart grocery dashboard: item search, the grocery list with quantity steppers, the Walmart list mirror reporting 3 of 3 items in sync, and the live Walmart cart](docs/dashboard.png)
+
+The four steps below the hero are: search Walmart items, review the list, mirror and sync, and drive the real Walmart cart from the **Live Walmart cart** card.
+
 ## Open the dashboard
 
 ```powershell
@@ -80,6 +86,8 @@ Because the list cannot be read without your session, `src/components/WalmartLis
 ## Project structure
 
 ```text
+docs/
+  dashboard.png          dashboard screenshot used by this README
 src/
   bridge/
     server.js           static server + local Walmart bridge API
