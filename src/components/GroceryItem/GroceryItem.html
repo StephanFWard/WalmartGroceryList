@@ -1,0 +1,19 @@
+<li class="grocery-item" data-grocery-item>
+  <img class="grocery-item__image" data-grocery-item-image alt="" width="96" height="96" loading="lazy">
+  <div class="grocery-item__details">
+    <h3 class="grocery-item__name" data-grocery-item-name>Item name</h3>
+    <p class="grocery-item__meta">
+      <span class="grocery-item__source" data-grocery-item-source>From previous history</span>
+    </p>
+    <div class="grocery-item__quantity">
+      <button class="grocery-item__quantity-button" type="button" data-grocery-item-decrease aria-label="Decrease quantity">−</button>
+      <label class="grocery-item__quantity-label" data-grocery-item-quantity-label>
+        Quantity
+        <input class="grocery-item__quantity-input" data-grocery-item-quantity type="number" min="1" max="99" step="1" value="1">
+      </label>
+      <button class="grocery-item__quantity-button" type="button" data-grocery-item-increase aria-label="Increase quantity">+</button>
+    </div>
+    <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View on Walmart</a>
+  </div>
+  <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+</li>

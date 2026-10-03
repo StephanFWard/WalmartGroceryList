@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walmart Grocery List</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/reset.css">
+  <link rel="stylesheet" href="../components/GroceryList/GroceryList.css">
+  <link rel="stylesheet" href="../components/GroceryItem/GroceryItem.css">
+  <link rel="stylesheet" href="../components/ReorderPanel/ReorderPanel.css">
+  <link rel="stylesheet" href="../components/WalmartSync/WalmartSync.css">
+</head>
+<body>
+  <main>
+    <h1>Walmart grocery list</h1>
+    <section aria-label="Previous history and grocery list">
+      <div data-page-reorder></div>
+      <div data-page-sync></div>
+      <div data-page-grocery-list></div>
+    </section>
+  </main>
+  <template id="grocery-item-template">
+    <li class="grocery-item" data-grocery-item>
+      <img class="grocery-item__image" data-grocery-item-image alt="" width="96" height="96" loading="lazy">
+      <div class="grocery-item__details">
+        <h3 class="grocery-item__name" data-grocery-item-name>Item name</h3>
+        <p class="grocery-item__meta">
+          <span class="grocery-item__source" data-grocery-item-source>From previous history</span>
+        </p>
+        <div class="grocery-item__quantity">
+          <button class="grocery-item__quantity-button" type="button" data-grocery-item-decrease aria-label="Decrease quantity">−</button>
+          <label class="grocery-item__quantity-label" data-grocery-item-quantity-label>
+            Quantity
+            <input class="grocery-item__quantity-input" data-grocery-item-quantity type="number" min="1" max="99" step="1" value="1">
+          </label>
+          <button class="grocery-item__quantity-button" type="button" data-grocery-item-increase aria-label="Increase quantity">+</button>
+        </div>
+        <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View on Walmart</a>
+      </div>
+      <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+    </li>
+  </template>
+  <script type="module" src="./grocery.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+.walmart-sync {
+  display: block;
+  padding: var(--space-md);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.walmart-sync__title {
+  margin-bottom: var(--space-sm);
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+}
+
+.walmart-sync__description {
+  margin-bottom: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.walmart-sync__status {
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.walmart-sync__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.walmart-sync__button {
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+.walmart-sync__button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.walmart-sync__link {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+}
+
+.walmart-sync__link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (min-width: 48rem) {
+  .walmart-sync {
+    padding: var(--space-lg);
+  }
+
+  .walmart-sync__actions {
+    flex-direction: row;
+  }
+}

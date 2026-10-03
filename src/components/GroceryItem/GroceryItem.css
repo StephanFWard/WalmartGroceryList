@@ -1,0 +1,101 @@
+.grocery-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.grocery-item__details {
+  display: grid;
+  flex: 1;
+  gap: var(--space-xs);
+}
+
+.grocery-item__image {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.grocery-item__name {
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.grocery-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.grocery-item__quantity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.grocery-item__quantity-label {
+  display: grid;
+  gap: var(--space-xs);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.grocery-item__quantity-input {
+  width: 4.5rem;
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.grocery-item__quantity-input:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+.grocery-item__quantity-button {
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+.grocery-item__quantity-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.grocery-item__product {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+}
+
+.grocery-item__product:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.grocery-item__remove {
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+.grocery-item__remove:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
