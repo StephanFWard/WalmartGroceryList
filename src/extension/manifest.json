@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Walmart Grocery List Bridge",
+  "version": "1.0.0",
+  "description": "Shares your signed-in Walmart cart with the local Walmart grocery dashboard, and applies dashboard changes (quantities, removals, checkout) back to walmart.com.",
+  "permissions": ["tabs", "storage"],
+  "host_permissions": [
+    "https://www.walmart.com/*",
+    "http://127.0.0.1:3000/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.walmart.com/*"],
+      "js": ["adapter.js", "content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}

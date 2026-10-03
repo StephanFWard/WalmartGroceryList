@@ -1,0 +1,22 @@
+<section class="live-cart" aria-labelledby="live-cart-title">
+  <h2 class="live-cart__title" id="live-cart-title">Live Walmart cart</h2>
+  <p class="live-cart__description">Read from your signed-in Walmart session by the browser extension. Changes apply to walmart.com in realtime.</p>
+  <p class="live-cart__status" data-live-cart-status role="status">Not connected. Start the bridge with: node src/bridge/server.js</p>
+  <ul class="live-cart__stats">
+    <li class="live-cart__stat">
+      <span class="live-cart__stat-value" data-live-cart-units>0</span>
+      <span class="live-cart__stat-label">Units on Walmart</span>
+    </li>
+    <li class="live-cart__stat">
+      <span class="live-cart__stat-value" data-live-cart-subtotal>$0.00</span>
+      <span class="live-cart__stat-label">Walmart subtotal</span>
+    </li>
+  </ul>
+  <ul class="live-cart__items" data-live-cart-items></ul>
+  <p class="live-cart__empty">Not connected. Start the bridge and install the extension to read your Walmart cart.</p>
+  <div class="live-cart__actions">
+    <button class="live-cart__button" type="button" data-live-cart-sync disabled>Push my list to cart</button>
+    <button class="live-cart__button live-cart__button--ghost" type="button" data-live-cart-refresh>Refresh</button>
+    <button class="live-cart__button" type="button" data-live-cart-checkout disabled>Checkout with my list</button>
+  </div>
+</section>

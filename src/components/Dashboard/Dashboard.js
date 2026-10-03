@@ -20,7 +20,7 @@ export function dashboardShellHtml() {
     <section class="grocery-dashboard" aria-labelledby="grocery-dashboard-title">
       <div class="grocery-dashboard__header">
         <div>
-          <p class="grocery-dashboard__eyebrow">Three quick steps</p>
+          <p class="grocery-dashboard__eyebrow">Four quick steps</p>
           <h2 class="grocery-dashboard__title" id="grocery-dashboard-title">Grocery dashboard</h2>
           <p class="grocery-dashboard__subtitle">Search Walmart items with the images from your list, tune quantities, match the list mirror, then check out.</p>
         </div>
@@ -50,6 +50,13 @@ export function dashboardShellHtml() {
             <div data-dashboard-mirror></div>
             <div data-dashboard-sync></div>
           </div>
+        </article>
+        <article class="grocery-dashboard__card grocery-dashboard__card--wide" aria-labelledby="dashboard-live-title">
+          <h3 class="grocery-dashboard__card-title" id="dashboard-live-title">
+            <span class="grocery-dashboard__step" aria-hidden="true">4</span>
+            Live Walmart cart
+          </h3>
+          <div data-dashboard-live></div>
         </article>
       </div>
     </section>

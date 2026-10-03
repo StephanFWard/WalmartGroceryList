@@ -8,6 +8,16 @@ import {
 } from "../components/GroceryList/GroceryList.js";
 import { renderGroceryItem } from "../components/GroceryItem/GroceryItem.js";
 import {
+  normalizeLiveCart,
+  planWalmartCartActions,
+  renderLiveCartPanel,
+} from "../components/LiveCart/LiveCart.js";
+import {
+  pollLiveCart,
+  sendLiveActions,
+  startLiveCartPolling,
+} from "../components/LiveCart/bridge-client.js";
+import {
   applyGroceryChange,
   applyWalmartMirrorToList,
   clearSyncQueue,
@@ -27,6 +37,7 @@ import {
 } from "../components/WalmartList/WalmartList.js";
 import {
   downloadWalmartSyncPayload,
+  WALMART_CHECKOUT_URL,
   WALMART_LIST_ID,
   WALMART_LIST_URL,
   walmartCheckoutUrl,
@@ -82,7 +93,7 @@ export function renderListPanel(mount, options) {
   if (!mount) {
     return;
   }
-  const { list, template, onQuantity, onRemove } = options;
+  const { list, template, onQuantity, onRemove, onCheckout } = options;
   const empty = list.length === 0;
   mount.innerHTML = `
     <section class="grocery-list" aria-labelledby="grocery-list-title">
@@ -116,6 +127,14 @@ export function renderListPanel(mount, options) {
     const removeButton = fragment.querySelector("[data-grocery-item-remove]");
     removeButton.addEventListener("click", () => onRemove(item.id));
     items.append(fragment);
+  }
+
+  const checkout = mount.querySelector("[data-grocery-list-checkout]");
+  if (checkout && onCheckout) {
+    checkout.addEventListener("click", (event) => {
+      event.preventDefault();
+      onCheckout(walmartCheckoutUrl(list));
+    });
   }
 }
 
@@ -178,6 +197,9 @@ export function createGroceryListController(options) {
     notice: seeded ? "Seeded from the Walmart list mirror." : "",
   };
   let searchApi = null;
+  let lastLiveSignature = "";
+  let stopPolling = null;
+  const live = { reachable: false, cart: normalizeLiveCart(null), pending: 0 };
 
   const currentReport = () => localListSyncReport(list);
 
@@ -192,7 +214,9 @@ export function createGroceryListController(options) {
       template,
       onQuantity: handleQuantity,
       onRemove: handleRemove,
+      onCheckout: handleCheckout,
     });
+    paintLivePanel();
     renderMirrorPanel(view.mirror, { report, onApply: handleApplyMirror });
     renderSyncPanel(view.sync, {
       pendingCount: readSyncQueue().length,
@@ -253,6 +277,91 @@ export function createGroceryListController(options) {
     paintPanels();
   }
 
+  function paintLivePanel() {
+    renderLiveCartPanel(view.live, {
+      cart: live.cart,
+      pendingCount: live.pending,
+      onAction: handleLiveAction,
+    });
+  }
+
+  function liveSignature() {
+    return JSON.stringify([live.reachable, live.cart.items, live.cart.capturedAt, live.pending]);
+  }
+
+  function applyLiveUpdate(update) {
+    live.reachable = update.reachable;
+    live.cart = update.cart;
+    live.pending = update.pending;
+    const signature = liveSignature();
+    if (signature === lastLiveSignature) {
+      return;
+    }
+    lastLiveSignature = signature;
+    paintLivePanel();
+  }
+
+  function bridgeNotice(result) {
+    if (!result.ok) {
+      searchState.notice = "Cart bridge unreachable - start it with: node src/bridge/server.js";
+    } else if (result.rejected.length > 0) {
+      searchState.notice = `Rejected ${result.rejected.length} cart action(s).`;
+    }
+    if (searchApi !== null) {
+      searchApi.render();
+    }
+  }
+
+  function queueCartSync(replaceCart = false) {
+    return planWalmartCartActions(list, live.cart, { replaceCart });
+  }
+
+  async function handleLiveAction(action) {
+    if (action.type === "refresh") {
+      const result = await sendLiveActions([{ id: "refresh", type: "refresh" }]);
+      bridgeNotice(result);
+      applyLiveUpdate(await pollLiveCart());
+      return;
+    }
+    if (action.type === "sync-list") {
+      const actions = queueCartSync(false);
+      if (actions.length === 0) {
+        searchState.notice = "Your Walmart cart already matches this list.";
+        bridgeNotice({ ok: true, rejected: [] });
+        return;
+      }
+      const result = await sendLiveActions(actions);
+      if (result.ok) {
+        searchState.notice = `Queued ${result.queued} cart change(s) for Walmart.`;
+      }
+      bridgeNotice(result);
+      paintPanels();
+      return;
+    }
+    if (action.type === "checkout") {
+      const checkoutId = `checkout-${Date.now()}`;
+      const result = await sendLiveActions([...queueCartSync(false), { id: checkoutId, type: "checkout" }]);
+      bridgeNotice(result);
+      window.open(WALMART_CHECKOUT_URL, "_blank", "noopener");
+      return;
+    }
+    const result = await sendLiveActions([{ ...action, id: actionIdFor(action) }]);
+    bridgeNotice(result);
+    paintPanels();
+  }
+
+  function actionIdFor(action) {
+    if (action.id !== undefined && action.id !== null && action.id !== "") {
+      return action.id;
+    }
+    const target = action.itemId ?? "all";
+    return `${action.type}:${target}`;
+  }
+
+  async function handleCheckout() {
+    await handleLiveAction({ type: "checkout" });
+  }
+
   function render() {
     if (view.dashboard) {
       view.dashboard.innerHTML = dashboardShellHtml();
@@ -260,6 +369,7 @@ export function createGroceryListController(options) {
       view.list = view.dashboard.querySelector("[data-dashboard-list]");
       view.mirror = view.dashboard.querySelector("[data-dashboard-mirror]");
       view.sync = view.dashboard.querySelector("[data-dashboard-sync]");
+      view.live = view.dashboard.querySelector("[data-dashboard-live]");
     }
     searchApi = renderSearchPanel(view.search, {
       history: readyHistory,
@@ -267,7 +377,22 @@ export function createGroceryListController(options) {
       onSelect: handleAdd,
     });
     paintPanels();
+    if (stopPolling === null) {
+      stopPolling = startLiveCartPolling(applyLiveUpdate);
+    }
   }
 
-  return { render, refresh: paintPanels, list, report: currentReport };
+  return {
+    render,
+    refresh: paintPanels,
+    live,
+    stop: () => {
+      if (stopPolling !== null) {
+        stopPolling();
+        stopPolling = null;
+      }
+    },
+    list,
+    report: currentReport,
+  };
 }
