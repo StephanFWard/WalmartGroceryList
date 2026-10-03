@@ -1,0 +1,18 @@
+.dashboard-page {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+.dashboard-page__intro {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}
+
+@media (min-width: 64rem) {
+  .dashboard-page {
+    padding: var(--space-lg);
+  }
+}

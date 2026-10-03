@@ -1,17 +1,46 @@
 # WalmartGroceryList
 
-Local grocery-list interface backed by searchable Walmart-style history items.
+Local localhost dashboard for searchable Walmart-style grocery items with images, quantities, sync, and checkout.
 
-## Open the app
+## Open the localhost dashboard
 
-Open `src/pages/grocery.html` in a browser.
+Use either localhost entry point:
 
-The page composes:
+```powershell
+npx serve "c:\\Users\\steph\\OneDrive\\Documents\\GitHub\\WalmartGroceryList\\src\\pages"
+```
 
+Then open:
+
+- `http://localhost:3000/dashboard.html`
+- `http://localhost:3000/grocery.html`
+
+Or open `src/pages/dashboard.html` directly in a browser.
+
+The intuitive dashboard composes:
+
+- `src/components/Dashboard/`
 - `src/components/ReorderPanel/`
-- `src/components/WalmartSync/`
 - `src/components/GroceryList/`
 - `src/components/GroceryItem/`
+- `src/components/WalmartSync/`
+
+Dashboard flow:
+
+1. Search items.
+2. Review list and quantities.
+3. Sync and checkout.
+
+## Search always shows images
+
+- Search previous-history items by name, ID, or keyword.
+- Every matching search result displays its Walmart product image.
+- Examples:
+  - `milk` shows Whole Milk with its image.
+  - `bread` shows Loaf of bread with its image.
+  - `beef` shows Hamburger logs, 2 lbs with its image.
+- Selecting an item adds one copy unless it is already present.
+- Grocery-list rows also display the selected Walmart image.
 
 ## Grocery behavior
 
@@ -24,12 +53,7 @@ The page composes:
 - Duplicate item IDs are ignored case-insensitively.
 - Local list and pending Walmart sync queue persist in `localStorage`.
 - Item and total quantities are shown on the localhost interface.
-
-## Search and select
-
-- Search the previous-history catalog by name, ID, or keyword.
-- Each result shows a Walmart product image and a select button.
-- Selecting an item adds one copy unless it is already present.
+- Dashboard header also summarizes item and unit totals.
 
 ## Walmart checkout
 
@@ -48,6 +72,6 @@ The page composes:
 Run all component tests with Node.js:
 
 ```powershell
-node --test src/components/GroceryList/GroceryList.test.js src/components/GroceryItem/GroceryItem.test.js src/components/ReorderPanel/ReorderPanel.test.js src/components/WalmartSync/WalmartSync.test.js
+node --test src/components/Dashboard/Dashboard.test.js src/components/GroceryList/GroceryList.test.js src/components/GroceryItem/GroceryItem.test.js src/components/ReorderPanel/ReorderPanel.test.js src/components/WalmartSync/WalmartSync.test.js
 ```
 
