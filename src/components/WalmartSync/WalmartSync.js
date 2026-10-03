@@ -36,12 +36,20 @@ export function toWalmartSyncPayload(list) {
     listUrl: WALMART_LIST_URL,
     checkoutUrl: walmartCheckoutUrl(list),
     generatedAt: new Date().toISOString(),
+    itemCount: list.length,
+    totalUnits: list.reduce((total, item) => total + normalizeCheckoutQuantity(item.quantity), 0),
     items: list.map((item) => ({
       id: item.id,
       name: item.name,
       quantity: normalizeCheckoutQuantity(item.quantity),
       imageUrl: item.imageUrl ?? null,
       productUrl: item.productUrl ?? null,
+      productName: item.productName ?? null,
+      size: item.size ?? null,
+      unitPrice: item.unitPrice ?? null,
+      category: item.category ?? null,
+      walmartItemId: item.walmartItemId ?? null,
+      price: typeof item.price === "number" ? item.price : null,
     })),
   };
 }

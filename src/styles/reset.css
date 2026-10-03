@@ -8,25 +8,52 @@
 
 html {
   line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
-  background-color: var(--color-background);
+  background-color: var(--color-background-muted);
   color: var(--color-text);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-family-base);
   font-size: var(--font-size-md);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
 
-img {
+img, svg {
   display: block;
   max-width: 100%;
 }
 
-button, input {
+button, input, select, textarea {
   font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.2em;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
 }
 
 ul, ol {
   padding-left: var(--space-lg);
 }
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none;
+}
+

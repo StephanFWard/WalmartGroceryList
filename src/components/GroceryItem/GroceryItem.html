@@ -1,9 +1,14 @@
 <li class="grocery-item" data-grocery-item>
-  <img class="grocery-item__image" data-grocery-item-image alt="" width="96" height="96" loading="lazy">
+  <a class="grocery-item__media" data-grocery-item-media href="https://www.walmart.com/">
+    <img class="grocery-item__image" data-grocery-item-image alt="" width="112" height="112" loading="lazy">
+  </a>
   <div class="grocery-item__details">
+    <p class="grocery-item__source" data-grocery-item-source>From previous history</p>
     <h3 class="grocery-item__name" data-grocery-item-name>Item name</h3>
+    <p class="grocery-item__product-name" data-grocery-item-product-name>Walmart product</p>
     <p class="grocery-item__meta">
-      <span class="grocery-item__source" data-grocery-item-source>From previous history</span>
+      <span class="grocery-item__size" data-grocery-item-size>Size</span>
+      <span class="grocery-item__price" data-grocery-item-price>$0.00</span>
     </p>
     <div class="grocery-item__quantity">
       <button class="grocery-item__quantity-button" type="button" data-grocery-item-decrease aria-label="Decrease quantity">−</button>
@@ -13,7 +18,9 @@
       </label>
       <button class="grocery-item__quantity-button" type="button" data-grocery-item-increase aria-label="Increase quantity">+</button>
     </div>
-    <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View on Walmart</a>
   </div>
-  <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+  <div class="grocery-item__actions">
+    <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View item</a>
+    <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+  </div>
 </li>

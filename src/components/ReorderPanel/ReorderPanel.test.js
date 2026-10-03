@@ -55,3 +55,10 @@ test("history search is case-insensitive and returns images", () => {
     assert.match(item.productUrl, /^https:\/\/www\.walmart\.com\/search\?q=/);
   }
 });
+test("ready-to-purchase items stay searchable by keyword", () => {
+  const ready = toReadyToPurchase(DEFAULT_HISTORY);
+  assert.equal(searchHistory(ready, "beef")[0].id, "hamburger-logs-2lbs");
+  assert.equal(searchHistory(ready, "MILK")[0].id, "whole-milk");
+  assert.equal(searchHistory(ready, "dairy").length, 1);
+});
+

@@ -1,0 +1,181 @@
+.app-shell__bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-background-translucent);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(0.75rem);
+}
+
+.app-shell__bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: var(--space-sm) var(--layout-gutter);
+}
+
+.app-shell__brand {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.app-shell__brand-mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  background-image: radial-gradient(circle at 32% 32%, var(--color-accent) 0 20%, transparent 21%),
+    linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+  border-radius: var(--radius-sm);
+}
+
+.app-shell__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.app-shell__nav-link {
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.app-shell__nav-link:hover {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  border-color: var(--color-primary-soft);
+}
+
+.app-shell__hero {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--layout-gutter) var(--space-2xl);
+  background-image: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary) 70%);
+  color: var(--color-primary-contrast);
+}
+
+.app-shell__eyebrow {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.app-shell__title {
+  max-width: 40rem;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.15;
+}
+
+.app-shell__subtitle {
+  max-width: 44rem;
+  font-size: var(--font-size-md);
+  opacity: 0.92;
+}
+
+.app-shell__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-left: 0;
+  list-style: none;
+}
+
+.app-shell__stat {
+  display: grid;
+  gap: var(--space-xs);
+  min-width: 8rem;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-translucent);
+  border: 1px solid var(--color-border-translucent);
+  border-radius: var(--radius-md);
+}
+
+.app-shell__stat-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.app-shell__stat-label {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.app-shell__main {
+  display: grid;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--layout-gutter) var(--space-2xl);
+}
+
+.app-shell__panel {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+  padding: var(--space-md);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.app-shell__panel:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 64rem) {
+  .app-shell__panel {
+    padding: var(--space-lg);
+  }
+}
+
+.app-shell__footer {
+  padding: var(--space-lg) var(--layout-gutter) var(--space-2xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.app-shell__footer-note {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 48rem) {
+  .app-shell__title {
+    font-size: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell__nav-link,
+  .app-shell__panel {
+    transition: none;
+  }
+}

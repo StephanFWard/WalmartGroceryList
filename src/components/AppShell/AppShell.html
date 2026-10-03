@@ -1,0 +1,26 @@
+<!-- Reference markup for the shared app shell. Pages copy this markup and AppShell.css
+     styles only these .app-shell__* classes. Nav links are rendered by renderAppShellNav(). -->
+<header class="app-shell__bar">
+  <div class="app-shell__bar-inner">
+    <p class="app-shell__brand">
+      <span class="app-shell__brand-mark" aria-hidden="true"></span>
+      <span class="app-shell__brand-text">Walmart Grocery</span>
+    </p>
+    <nav class="app-shell__nav" data-app-shell-nav aria-label="Walmart shortcuts"></nav>
+  </div>
+</header>
+
+<section class="app-shell__hero" aria-labelledby="app-shell-title">
+  <p class="app-shell__eyebrow">Localhost dashboard · list WL/73215e44</p>
+  <h1 class="app-shell__title" id="app-shell-title">Walmart grocery dashboard</h1>
+  <p class="app-shell__subtitle">Search Walmart items with real product images, track quantities, mirror your Walmart list, and jump straight to checkout.</p>
+  <ul class="app-shell__stats" data-app-shell-stats></ul>
+</section>
+
+<main class="app-shell__main">
+  <!-- Page content composes GroceryDashboard, WalmartList, ReorderPanel, GroceryList, and WalmartSync. -->
+</main>
+
+<footer class="app-shell__footer">
+  <p class="app-shell__footer-note">Prices, sizes, and images come from Walmart.com item pages. Walmart list WL/73215e44 requires your signed-in Walmart session.</p>
+</footer>

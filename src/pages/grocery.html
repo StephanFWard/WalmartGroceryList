@@ -3,30 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Walmart Grocery List</title>
+  <title>Walmart Grocery List · Localhost</title>
+  <meta name="description" content="Localhost grocery list for Walmart list WL/73215e44 with the mirrored product images, search, quantities, and checkout.">
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/reset.css">
+  <link rel="stylesheet" href="../components/AppShell/AppShell.css">
+  <link rel="stylesheet" href="../components/WalmartList/WalmartList.css">
+  <link rel="stylesheet" href="../components/ReorderPanel/ReorderPanel.css">
   <link rel="stylesheet" href="../components/GroceryList/GroceryList.css">
   <link rel="stylesheet" href="../components/GroceryItem/GroceryItem.css">
-  <link rel="stylesheet" href="../components/ReorderPanel/ReorderPanel.css">
   <link rel="stylesheet" href="../components/WalmartSync/WalmartSync.css">
 </head>
 <body>
-  <main>
-    <h1>Walmart grocery list</h1>
-    <section aria-label="Previous history and grocery list">
-      <div data-page-reorder></div>
-      <div data-page-sync></div>
-      <div data-page-grocery-list></div>
-    </section>
+  <header class="app-shell__bar">
+    <div class="app-shell__bar-inner">
+      <p class="app-shell__brand">
+        <span class="app-shell__brand-mark" aria-hidden="true"></span>
+        <span class="app-shell__brand-text">Walmart Grocery</span>
+      </p>
+      <nav class="app-shell__nav" data-app-shell-nav aria-label="Walmart shortcuts"></nav>
+    </div>
+  </header>
+  <section class="app-shell__hero" aria-labelledby="page-title">
+    <p class="app-shell__eyebrow">Localhost list · list WL/73215e44</p>
+    <h1 class="app-shell__title" id="page-title">Walmart grocery list</h1>
+    <p class="app-shell__subtitle">One page for the whole shop: mirror your Walmart list, search items with their Walmart images, set quantities, and check out.</p>
+    <ul class="app-shell__stats" data-app-shell-stats></ul>
+  </section>
+  <main class="app-shell__main">
+    <div class="app-shell__panel" data-page-mirror></div>
+    <div class="app-shell__panel" data-page-search></div>
+    <div class="app-shell__panel" data-page-list></div>
+    <div class="app-shell__panel" data-page-sync></div>
   </main>
+  <footer class="app-shell__footer">
+    <p class="app-shell__footer-note">Images, sizes, and prices come from Walmart.com item pages for list WL/73215e44. Walmart requires your signed-in session for list changes and checkout.</p>
+  </footer>
   <template id="grocery-item-template">
     <li class="grocery-item" data-grocery-item>
-      <img class="grocery-item__image" data-grocery-item-image alt="" width="96" height="96" loading="lazy">
+      <a class="grocery-item__media" data-grocery-item-media href="https://www.walmart.com/">
+        <img class="grocery-item__image" data-grocery-item-image alt="" width="112" height="112" loading="lazy">
+      </a>
       <div class="grocery-item__details">
+        <p class="grocery-item__source" data-grocery-item-source>From previous history</p>
         <h3 class="grocery-item__name" data-grocery-item-name>Item name</h3>
+        <p class="grocery-item__product-name" data-grocery-item-product-name>Walmart product</p>
         <p class="grocery-item__meta">
-          <span class="grocery-item__source" data-grocery-item-source>From previous history</span>
+          <span class="grocery-item__size" data-grocery-item-size>Size</span>
+          <span class="grocery-item__price" data-grocery-item-price>$0.00</span>
         </p>
         <div class="grocery-item__quantity">
           <button class="grocery-item__quantity-button" type="button" data-grocery-item-decrease aria-label="Decrease quantity">−</button>
@@ -36,9 +61,11 @@
           </label>
           <button class="grocery-item__quantity-button" type="button" data-grocery-item-increase aria-label="Increase quantity">+</button>
         </div>
-        <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View on Walmart</a>
       </div>
-      <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+      <div class="grocery-item__actions">
+        <a class="grocery-item__product" data-grocery-item-product href="https://www.walmart.com/">View item</a>
+        <button class="grocery-item__remove" type="button" data-grocery-item-remove>Remove</button>
+      </div>
     </li>
   </template>
   <script type="module" src="./grocery.js"></script>

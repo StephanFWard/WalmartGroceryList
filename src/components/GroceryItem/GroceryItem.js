@@ -1,7 +1,43 @@
+import { formatUsd } from "../GroceryList/GroceryList.js";
+
+const SOURCE_LABELS = {
+  history: "From previous history",
+  "walmart-list": "Mirrors Walmart list",
+  ready: "Ready to purchase",
+};
+
+function setOptionalText(element, text) {
+  if (!element) {
+    return;
+  }
+  if (text === null || text === undefined || text === "") {
+    element.textContent = "";
+    element.removeAttribute("title");
+    element.setAttribute("hidden", "");
+    return;
+  }
+  element.textContent = text;
+  element.setAttribute("title", text);
+  element.removeAttribute("hidden");
+}
+
+function priceText(item) {
+  if (typeof item.price !== "number") {
+    return null;
+  }
+  const amount = formatUsd(item.price);
+  return item.unitPrice ? `${amount} · ${item.unitPrice}` : amount;
+}
+
 export function renderGroceryItem(item, template, handlers = {}) {
   const fragment = template.content.cloneNode(true);
+  const root = fragment.querySelector("[data-grocery-item]");
+  const media = fragment.querySelector("[data-grocery-item-media]");
   const image = fragment.querySelector("[data-grocery-item-image]");
   const name = fragment.querySelector("[data-grocery-item-name]");
+  const productName = fragment.querySelector("[data-grocery-item-product-name]");
+  const size = fragment.querySelector("[data-grocery-item-size]");
+  const price = fragment.querySelector("[data-grocery-item-price]");
   const quantity = fragment.querySelector("[data-grocery-item-quantity]");
   const quantityLabel = fragment.querySelector("[data-grocery-item-quantity-label]");
   const decrease = fragment.querySelector("[data-grocery-item-decrease]");
@@ -10,6 +46,18 @@ export function renderGroceryItem(item, template, handlers = {}) {
   const product = fragment.querySelector("[data-grocery-item-product]");
   const remove = fragment.querySelector("[data-grocery-item-remove]");
 
+  if (root) {
+    root.dataset.itemId = item.id;
+  }
+  if (media) {
+    if (item.productUrl) {
+      media.href = item.productUrl;
+      media.removeAttribute("hidden");
+    } else {
+      media.removeAttribute("href");
+      media.setAttribute("hidden", "");
+    }
+  }
   if (image) {
     if (item.imageUrl) {
       image.src = item.imageUrl;
@@ -23,6 +71,9 @@ export function renderGroceryItem(item, template, handlers = {}) {
   if (name) {
     name.textContent = item.name;
   }
+  setOptionalText(productName, item.productName ?? null);
+  setOptionalText(size, item.size ?? null);
+  setOptionalText(price, priceText(item));
   if (quantity) {
     quantity.value = String(item.quantity);
     quantity.setAttribute("aria-label", `Quantity for ${item.name}`);
@@ -49,7 +100,7 @@ export function renderGroceryItem(item, template, handlers = {}) {
     });
   }
   if (source) {
-    source.textContent = item.source === "history" ? "From previous history" : "Ready to purchase";
+    source.textContent = SOURCE_LABELS[item.source] ?? SOURCE_LABELS.ready;
   }
   if (product) {
     if (item.productUrl) {

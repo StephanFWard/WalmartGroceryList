@@ -14,3 +14,44 @@ export function setDashboardSummary(root, list) {
     summary.textContent = dashboardSummaryText(list);
   }
 }
+
+export function dashboardShellHtml() {
+  return `
+    <section class="grocery-dashboard" aria-labelledby="grocery-dashboard-title">
+      <div class="grocery-dashboard__header">
+        <div>
+          <p class="grocery-dashboard__eyebrow">Three quick steps</p>
+          <h2 class="grocery-dashboard__title" id="grocery-dashboard-title">Grocery dashboard</h2>
+          <p class="grocery-dashboard__subtitle">Search Walmart items with the images from your list, tune quantities, match the list mirror, then check out.</p>
+        </div>
+        <p class="grocery-dashboard__badge" data-dashboard-summary>0 items · 0 units</p>
+      </div>
+      <div class="grocery-dashboard__grid">
+        <article class="grocery-dashboard__card" aria-labelledby="dashboard-search-title">
+          <h3 class="grocery-dashboard__card-title" id="dashboard-search-title">
+            <span class="grocery-dashboard__step" aria-hidden="true">1</span>
+            Search Walmart items
+          </h3>
+          <div data-dashboard-search></div>
+        </article>
+        <article class="grocery-dashboard__card" aria-labelledby="dashboard-list-title">
+          <h3 class="grocery-dashboard__card-title" id="dashboard-list-title">
+            <span class="grocery-dashboard__step" aria-hidden="true">2</span>
+            Review your list
+          </h3>
+          <div data-dashboard-list></div>
+        </article>
+        <article class="grocery-dashboard__card grocery-dashboard__card--wide" aria-labelledby="dashboard-mirror-title">
+          <h3 class="grocery-dashboard__card-title" id="dashboard-mirror-title">
+            <span class="grocery-dashboard__step" aria-hidden="true">3</span>
+            Mirror, sync &amp; checkout
+          </h3>
+          <div class="grocery-dashboard__stack">
+            <div data-dashboard-mirror></div>
+            <div data-dashboard-sync></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  `;
+}

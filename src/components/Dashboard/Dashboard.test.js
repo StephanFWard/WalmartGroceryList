@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dashboardSummaryText } from "./Dashboard.js";
+import { dashboardShellHtml, dashboardSummaryText } from "./Dashboard.js";
 
 test("dashboard summary tracks items and quantity", () => {
   assert.equal(
@@ -29,3 +29,13 @@ test("dashboard css uses tokens and responsive grid", () => {
   assert.match(css, /min-width: 64rem/);
   assert.doesNotMatch(css, /!important/);
 });
+test("dashboard shell html exposes search, list, mirror, and sync regions", () => {
+  const html = dashboardShellHtml();
+  assert.match(html, /data-dashboard-search/);
+  assert.match(html, /data-dashboard-list/);
+  assert.match(html, /data-dashboard-mirror/);
+  assert.match(html, /data-dashboard-sync/);
+  assert.match(html, /data-dashboard-summary/);
+  assert.match(html, /grocery-dashboard__step/);
+});
+

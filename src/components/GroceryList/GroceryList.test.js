@@ -4,6 +4,8 @@ import {
   addGroceryItem,
   countGroceryItems,
   createGroceryList,
+  estimateGrocerySubtotal,
+  formatUsd,
   normalizeQuantity,
   removeGroceryItem,
   searchGroceryCatalog,
@@ -91,3 +93,49 @@ test("quantity normalization and totals work", () => {
   updateGroceryQuantity(list, "loaf-of-bread", 3);
   assert.equal(totalGroceryQuantity(list), 5);
 });
+test("added items keep the mirrored Walmart product details", () => {
+  const list = createGroceryList();
+  addGroceryItem(list, {
+    id: "hamburger-logs-2lbs",
+    name: "Hamburger logs, 2 lbs",
+    imageUrl: "https://i5.walmartimages.com/seo/beef.jpeg",
+    productUrl: "https://www.walmart.com/ip/73-Lean-27-Fat-Ground-Beef-1-lb-Roll-Fresh-All-Natural/15136790",
+    productName: "73% Lean / 27% Fat Ground Beef, 1 lb Roll, Fresh, All Natural*",
+    size: "2 × 1 lb roll (2 lbs)",
+    unitPrice: "$6.44/lb",
+    category: "Meat & seafood",
+    price: "6.44",
+    walmartItemId: "15136790",
+  });
+  assert.equal(list[0].size, "2 × 1 lb roll (2 lbs)");
+  assert.equal(list[0].category, "Meat & seafood");
+  assert.equal(list[0].price, 6.44);
+  assert.equal(list[0].walmartItemId, "15136790");
+  assert.equal(list[0].productName.startsWith("73% Lean"), true);
+});
+
+test("missing optional product details become null", () => {
+  const list = createGroceryList();
+  addGroceryItem(list, { id: "eggs-12ct", name: "Eggs" });
+  assert.equal(list[0].productName, null);
+  assert.equal(list[0].size, null);
+  assert.equal(list[0].unitPrice, null);
+  assert.equal(list[0].category, null);
+  assert.equal(list[0].walmartItemId, null);
+  assert.equal(list[0].price, null);
+});
+
+test("subtotal estimate and currency formatting track quantities", () => {
+  assert.equal(estimateGrocerySubtotal([]), 0);
+  assert.equal(formatUsd(0), "$0.00");
+  assert.equal(formatUsd("6.4"), "$6.40");
+  assert.equal(formatUsd(-2), "$0.00");
+
+  const list = createGroceryList();
+  addGroceryItem(list, { id: "whole-milk", name: "Whole Milk", price: 3.68 });
+  addGroceryItem(list, { id: "eggs-12ct", name: "Eggs" });
+  updateGroceryQuantity(list, "whole-milk", 2);
+  assert.equal(estimateGrocerySubtotal(list), 7.36);
+  assert.equal(formatUsd(estimateGrocerySubtotal(list)), "$7.36");
+});
+

@@ -34,6 +34,19 @@ export function normalizeQuantity(value, fallback = 1) {
   return parsed;
 }
 
+function optionalListText(value) {
+  const text = String(value ?? "").trim();
+  return text === "" ? null : text;
+}
+
+function optionalListPrice(value) {
+  const parsed = Number.parseFloat(String(value ?? ""));
+  if (Number.isNaN(parsed) || parsed < 0) {
+    return null;
+  }
+  return Math.round(parsed * 100) / 100;
+}
+
 export function addGroceryItem(list, candidate) {
   const id = normalizeGroceryId(candidate?.id);
   const name = String(candidate?.name ?? "").trim();
@@ -52,8 +65,33 @@ export function addGroceryItem(list, candidate) {
     source: candidate?.source ?? "history",
     imageUrl: imageUrl === "" ? null : imageUrl,
     productUrl: productUrl === "" ? null : productUrl,
+    productName: optionalListText(candidate?.productName),
+    size: optionalListText(candidate?.size),
+    unitPrice: optionalListText(candidate?.unitPrice),
+    category: optionalListText(candidate?.category),
+    walmartItemId: optionalListText(candidate?.walmartItemId),
+    price: optionalListPrice(candidate?.price),
   });
   return { added: true, list };
+}
+
+export function estimateGrocerySubtotal(list) {
+  const total = list.reduce((sum, item) => {
+    const price = Number.parseFloat(String(item?.price ?? ""));
+    if (Number.isNaN(price)) {
+      return sum;
+    }
+    return sum + price * normalizeQuantity(item.quantity, 1);
+  }, 0);
+  return Math.round(total * 100) / 100;
+}
+
+export function formatUsd(value) {
+  const amount = Number.parseFloat(String(value ?? ""));
+  if (Number.isNaN(amount) || amount < 0) {
+    return "$0.00";
+  }
+  return `$${amount.toFixed(2)}`;
 }
 
 
@@ -63,7 +101,7 @@ export function updateGroceryQuantity(list, id, quantity) {
     return { updated: false, reason: "not-found", list };
   }
   const nextQuantity = normalizeQuantity(quantity, item.quantity);
-  if (nextQuantity === item.quantity && normalizeQuantity(quantity, -1) !== item.quantity) {
+  if (nextQuantity === item.quantity) {
     return { updated: false, reason: "unchanged", list };
   }
   item.quantity = nextQuantity;

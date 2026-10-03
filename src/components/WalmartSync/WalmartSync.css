@@ -1,27 +1,26 @@
 .walmart-sync {
-  display: block;
-  padding: var(--space-md);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  display: grid;
+  gap: var(--space-sm);
 }
 
 .walmart-sync__title {
-  margin-bottom: var(--space-sm);
   color: var(--color-text);
   font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .walmart-sync__description {
-  margin-bottom: var(--space-sm);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
 
 .walmart-sync__status {
-  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface);
   color: var(--color-text);
   font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .walmart-sync__actions {
@@ -32,10 +31,29 @@
 
 .walmart-sync__button {
   padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-strong);
   color: var(--color-primary-contrast);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid var(--color-primary-strong);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.walmart-sync__button:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.walmart-sync__button--ghost {
+  background-color: var(--color-background);
+  color: var(--color-primary-strong);
+}
+
+.walmart-sync__button--ghost:hover {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  border-color: var(--color-primary-soft);
 }
 
 .walmart-sync__button:focus-visible {
@@ -46,6 +64,7 @@
 .walmart-sync__link {
   color: var(--color-primary);
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .walmart-sync__link:focus-visible {
@@ -53,12 +72,22 @@
   outline-offset: 2px;
 }
 
-@media (min-width: 48rem) {
-  .walmart-sync {
-    padding: var(--space-lg);
-  }
+.walmart-sync__note {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
 
+@media (min-width: 48rem) {
   .walmart-sync__actions {
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .walmart-sync__button {
+    transition: none;
+  }
+}
+
